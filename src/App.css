@@ -3,24 +3,439 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    @apply h-full;
-  }
+  html,
   body {
-    @apply h-full bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-100;
+    @apply w-full h-full overflow-hidden;
+    background-color: #000000;
+    color: #ffffff;
   }
   #root {
-    @apply h-full;
+    @apply w-full h-full;
   }
 }
 
 @layer components {
-  .flip-card {
-    @apply relative bg-gray-800 text-white rounded-md text-7xl font-mono select-none overflow-hidden;
+  .app-container {
+    @apply relative flex flex-col w-full h-full;
+  }
+
+  /* Main container styles - based on HTML example */
+  .clock-container {
+    @apply flex flex-col items-center justify-center w-full h-full;
+    padding: 4vh 0;
+    position: relative;
+    overflow: visible;
+  }
+
+  /* Main clock styles - based on HTML example */
+  .flip-clock {
+    @apply flex items-center justify-center;
+    gap: 4vw; /* Space between hours and minutes groups */
+    transition: all 0.3s ease;
+  }
+
+  /* Main time section (hours and minutes) */
+  .main-time .flip-unit-container {
+    width: 22vw; /* Wide digits */
+    height: 30vw;
+  }
+
+  .main-time .digit-top,
+  .main-time .digit-bottom,
+  .main-time .flip-top,
+  .main-time .flip-bottom {
+    font-size: 30vw;
+  }
+
+  /* Group styling for digital groups */
+  .group {
+    @apply flex;
+    gap: 1.5vw;
+  }
+
+  /* Flip unit container */
+  .flip-unit-container {
+    @apply relative;
     perspective: 1000px;
   }
 
-  .card-inner {
-    @apply flex flex-col items-center justify-center w-full h-full transition-transform duration-500;
+  /* Static elements */
+  .digit-top,
+  .digit-bottom,
+  .flip-top,
+  .flip-bottom {
+    @apply absolute w-full overflow-hidden font-light;
+    color: #f5f5f5;
+    background: #0f0f0f;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Top half */
+  .digit-top,
+  .flip-top {
+    @apply top-0;
+    align-items: flex-end;
+    border-bottom: 4px solid #000;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+  }
+
+  .digit-top span,
+  .flip-top span {
+    transform: translateY(50%);
+  }
+
+  /* Bottom half */
+  .digit-bottom,
+  .flip-bottom {
+    @apply bottom-0;
+    align-items: flex-start;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+  }
+
+  .digit-bottom span,
+  .flip-bottom span {
+    transform: translateY(-50%);
+  }
+
+  /* Animation for top flip */
+  .flip-top {
+    backface-visibility: hidden;
+    z-index: 2;
+    animation: flip-top 0.3s ease-in;
+    transform-origin: bottom center;
+  }
+
+  /* Animation for bottom flip */
+  .flip-bottom {
+    backface-visibility: hidden;
+    z-index: 1;
+    animation: flip-bottom 0.3s ease-out 0.3s;
+    transform-origin: top center;
+  }
+
+  @keyframes flip-top {
+    0% {
+      transform: rotateX(0deg);
+    }
+    100% {
+      transform: rotateX(-90deg);
+    }
+  }
+
+  @keyframes flip-bottom {
+    0% {
+      transform: rotateX(90deg);
+    }
+    100% {
+      transform: rotateX(0deg);
+    }
+  }
+
+  /* Seconds container - positioned below main clock */
+  .seconds-container {
+    position: relative;
+    display: flex;
+    margin-top: 3vh;
+    opacity: 0.8;
+  }
+
+  .seconds-container .flip-unit-container {
+    width: 4.5vw;
+    height: 5.5vw;
+  }
+
+  .seconds-container .digit-top,
+  .seconds-container .digit-bottom,
+  .seconds-container .flip-top,
+  .seconds-container .flip-bottom {
+    font-size: 5vw;
+    border-radius: 0;
+  }
+
+  /* Date display - modernized */
+  .date-display {
+    @apply px-4 text-center transition-all duration-300;
+    position: absolute;
+    top: 5vh;
+    left: 0;
+    right: 0;
+    color: rgba(245, 245, 245, 0.7);
+    font-weight: 300;
+    letter-spacing: 1px;
+  }
+
+  .date-display .date {
+    font-size: min(3vh, 2.5vw);
+  }
+
+  .date-display .day-of-year {
+    font-size: min(2.2vh, 1.8vw);
+    opacity: 0.7;
+    margin-top: 0.5vh;
+  }
+
+  /* Widget system - modernized */
+  .widget-container {
+    @apply fixed left-0 right-0;
+    bottom: 0;
+    padding: 3vh 4vw;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    background: rgba(15, 15, 15, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 100;
+    transform: translateY(100%);
+    transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+
+  .widget-container.visible {
+    transform: translateY(0);
+  }
+
+  /* Modern toggle button */
+  .widget-toggle {
+    position: fixed;
+    bottom: 3vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(30, 30, 30, 0.7);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 110;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .widget-toggle:hover {
+    background: rgba(40, 40, 40, 0.9);
+    transform: translateX(-50%) scale(1.1);
+  }
+
+  .widget-toggle svg {
+    opacity: 0.8;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .widget-toggle.open svg {
+    transform: rotate(180deg);
+  }
+
+  /* Modern widget styling */
+  .widget {
+    background: rgba(25, 25, 25, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .widget:hover {
+    background: rgba(35, 35, 35, 0.9);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .widget h2 {
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: rgba(245, 245, 245, 0.7);
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    position: relative;
+    padding-bottom: 10px;
+  }
+
+  .widget h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 40px;
+    background: linear-gradient(
+      90deg,
+      rgba(66, 153, 225, 0.8),
+      rgba(99, 179, 237, 0.4)
+    );
+    border-radius: 1px;
+  }
+
+  /* Modern switches */
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 46px;
+    height: 24px;
+    margin: 0;
+  }
+
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .toggle-switch .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(100, 100, 100, 0.3);
+    transition: 0.3s;
+    border-radius: 34px;
+  }
+
+  .toggle-switch .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+  }
+
+  .toggle-switch input:checked + .slider {
+    background-color: rgba(66, 153, 225, 0.8);
+  }
+
+  .toggle-switch input:checked + .slider:before {
+    transform: translateX(22px);
+  }
+
+  /* Size buttons styling */
+  .size-buttons {
+    display: flex;
+    gap: 8px;
+  }
+
+  .size-button {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(50, 50, 50, 0.5);
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+  }
+
+  .size-button:hover {
+    background: rgba(60, 60, 60, 0.7);
+  }
+
+  .size-button.active {
+    background: rgba(66, 153, 225, 0.6);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Progress bars */
+  .progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(50, 50, 50, 0.5);
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 6px 0;
+  }
+
+  .progress-bar .fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s ease-out;
+  }
+
+  .progress-bar .fill.blue {
+    background: linear-gradient(90deg, #3182ce, #63b3ed);
+  }
+
+  .progress-bar .fill.green {
+    background: linear-gradient(90deg, #38a169, #68d391);
+  }
+
+  .progress-bar .fill.yellow {
+    background: linear-gradient(90deg, #d69e2e, #f6e05e);
+  }
+
+  .progress-bar .fill.red {
+    background: linear-gradient(90deg, #e53e3e, #fc8181);
+  }
+
+  .progress-bar .fill.purple {
+    background: linear-gradient(90deg, #805ad5, #b794f4);
+  }
+
+  /* Music controls */
+  .music-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 15px;
+  }
+
+  .music-control-button {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(50, 50, 50, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .music-control-button:hover {
+    background: rgba(66, 153, 225, 0.6);
+    transform: scale(1.1);
+  }
+
+  /* System info items */
+  .info-item {
+    margin-bottom: 12px;
+  }
+
+  .info-item-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .info-item-value {
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 400;
   }
 }

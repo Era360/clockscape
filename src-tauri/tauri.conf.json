@@ -7,18 +7,27 @@
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
     "beforeBuildCommand": "npm run build",
-    "frontendDist": "../dist"
+    "frontendDist": "../src"
   },
   "app": {
     "windows": [
       {
-        "title": "clockscape",
-        "width": 800,
-        "height": 600
+        "fullscreen": true,
+        "resizable": true,
+        "title": "ClockScape",
+        "decorations": false,
+        "transparent": false,
+        "minWidth": 1024,
+        "minHeight": 768
       }
     ],
     "security": {
       "csp": null
+    },
+    "trayIcon": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": true,
+      "menuOnLeftClick": false
     }
   },
   "bundle": {

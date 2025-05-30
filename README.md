@@ -74,4 +74,4 @@ This project is built using:
 
 ## License
 
-[MIT License](./LICENSE)
+This project is licensed under the [MIT License](./LICENSE).

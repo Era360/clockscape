@@ -225,7 +225,7 @@ function App() {
             <div className="mr-4 text-5xl opacity-90">☀️</div>
             <div>
               <div className="text-2xl font-light">22°C</div>
-              <div className="text-sm opacity-70 mt-1">
+              <div className="mt-1 text-sm opacity-70">
                 Sunny · San Francisco
               </div>
             </div>
@@ -234,7 +234,7 @@ function App() {
 
         <Widget title="Music">
           <div className="flex items-center">
-            <div className="flex-shrink-0 w-14 h-14 mr-4 rounded-lg overflow-hidden bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
+            <div className="flex items-center justify-center flex-shrink-0 mr-4 overflow-hidden rounded-lg w-14 h-14 bg-gradient-to-br from-gray-700 to-gray-800">
               {musicInfo.cover_art_url ? (
                 <img
                   src={musicInfo.cover_art_url}
@@ -245,21 +245,21 @@ function App() {
                 <span className="text-2xl">🎵</span>
               )}
             </div>
-            <div className="overflow-hidden flex-1">
-              <div className="text-xs opacity-70 mb-1">
+            <div className="flex-1 overflow-hidden">
+              <div className="mb-1 text-xs opacity-70">
                 {musicInfo.is_playing ? "NOW PLAYING" : "PAUSED"}
               </div>
-              <div className="font-medium text-base truncate">
+              <div className="text-base font-medium truncate">
                 {musicInfo.title || "No track playing"}
               </div>
-              <div className="text-sm opacity-70 truncate">
+              <div className="text-sm truncate opacity-70">
                 {musicInfo.artist || "Unknown artist"}
               </div>
             </div>
           </div>
 
           {musicInfo.duration > 0 && (
-            <div className="progress-bar mt-3">
+            <div className="mt-3 progress-bar">
               <div
                 className="fill blue"
                 style={{
@@ -394,7 +394,7 @@ function App() {
 
         <Widget title="Clock Settings">
           <div className="flex flex-col space-y-4">
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <span>Show Seconds</span>
               <label className="toggle-switch">
                 <input
@@ -406,7 +406,7 @@ function App() {
               </label>
             </div>
 
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <span>Clock Size</span>
               <div className="size-buttons">
                 <button

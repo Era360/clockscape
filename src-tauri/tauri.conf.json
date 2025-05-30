@@ -7,32 +7,25 @@
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
     "beforeBuildCommand": "npm run build",
-    "frontendDist": "../src"
+    "frontendDist": "../dist"
   },
   "app": {
     "windows": [
       {
-        "fullscreen": true,
-        "resizable": true,
         "title": "ClockScape",
-        "decorations": false,
-        "transparent": false,
-        "minWidth": 1024,
-        "minHeight": 768
+        "fullscreen": false,
+        "resizable": true,
+        "width": 800,
+        "height": 600
       }
     ],
     "security": {
       "csp": null
-    },
-    "trayIcon": {
-      "iconPath": "icons/icon.png",
-      "iconAsTemplate": true,
-      "menuOnLeftClick": false
     }
   },
   "bundle": {
     "active": true,
-    "targets": "all",
+    "targets": "msi",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

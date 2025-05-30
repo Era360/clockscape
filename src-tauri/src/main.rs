@@ -170,22 +170,7 @@ fn main() {
                     .expect("Failed to set fullscreen");
             }
 
-            // Setup window focus events
-            window.on_window_event(move |event| {
-                if let tauri::WindowEvent::Focused(focused) = event {
-                    if !focused {
-                        // Handle losing focus if needed
-                    }
-                }
-            });
-
             Ok(())
-        })
-        .on_window_event(|_window, event| {
-            // This handler takes two parameters - the window and the event
-            if let tauri::WindowEvent::CloseRequested { api, .. } = event {
-                api.prevent_close();
-            }
         })
         .manage(system_info_manage)
         .manage(music_info_manage)

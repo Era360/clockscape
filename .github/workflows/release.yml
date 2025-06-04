@@ -39,7 +39,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
         with:
           tagName: ${{ github.ref_name }}
-          releaseName: "ClockScape v${{ github.ref_name }}"
+          releaseName: "${{ github.ref_name }}"
           releaseBody: "See the assets to download and install this version."
           releaseDraft: true
           prerelease: false

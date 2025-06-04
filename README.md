@@ -67,6 +67,32 @@ This project is built using:
 - Windows 10/11, macOS 10.15+, or Linux
 - 64-bit architecture
 
+## Release Process
+
+ClockScape uses GitHub Actions to automate the release process. Here's how to create a new release:
+
+1. Make sure all your changes are committed and pushed to the main branch.
+
+2. Use one of the following commands to create a new version tag, depending on the type of release:
+
+   ```bash
+   # For patch releases (bug fixes)
+   npm run release:patch
+
+   # For minor releases (new features)
+   npm run release:minor
+
+   # For major releases (breaking changes)
+   npm run release:major
+   ```
+
+3. The GitHub Actions workflow will automatically:
+   - Build the application for Windows
+   - Create a draft release on GitHub with Windows installers
+   - Attach the MSI and NSIS installer files to the release
+
+4. Go to the GitHub releases page, review the draft release, add release notes, and publish it.
+
 ## Acknowledgements
 
 - Inspired by the [FLiqlo Clock Screensaver](https://fliqlo.com/)

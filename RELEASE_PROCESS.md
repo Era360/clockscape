@@ -30,11 +30,13 @@ npm run release:major
 ```
 
 These commands will:
+
 - Update the version in package.json
 - Create a new Git tag with the version
 - Push the tag to GitHub
 
 3. The GitHub Actions workflow will automatically trigger when the tag is pushed and:
+
    - Build the Windows installers (MSI and NSIS)
    - Create a draft release on GitHub
    - Attach the installers to the release
@@ -49,6 +51,7 @@ These commands will:
 To support additional platforms in the future:
 
 1. Update the `matrix.platform` array in `.github/workflows/release.yml` to include:
+
    - `macos-latest` for macOS builds
    - `ubuntu-20.04` for Linux builds
 

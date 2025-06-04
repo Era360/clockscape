@@ -87,6 +87,7 @@ ClockScape uses GitHub Actions to automate the release process. Here's how to cr
    ```
 
 3. The GitHub Actions workflow will automatically:
+
    - Build the application for Windows
    - Create a draft release on GitHub with Windows installers
    - Attach the MSI and NSIS installer files to the release
